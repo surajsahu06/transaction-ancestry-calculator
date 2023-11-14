@@ -21,8 +21,9 @@ public class TransactionController {
     @Autowired
     TransactionService transactionService;
 
-    TransactionController(AncestryCalculator ancestryCalculator) {
+    TransactionController(AncestryCalculator ancestryCalculator, TransactionService transactionService) {
         this.ancestryCalculator = ancestryCalculator;
+        this.transactionService = transactionService;
     }
 
     @GetMapping(value = "/print-tx-details")

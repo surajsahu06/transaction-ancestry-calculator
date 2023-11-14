@@ -9,18 +9,13 @@ import java.util.*;
 @Service
 public class AncestryCalculator {
 
-    public List<Transaction> getLargestAncestors(Map<String, List<String>> mapOfTxToAllInputs, int count) {
-        List<Transaction> allTransactions = new ArrayList<>();
-        List<Transaction> res = new ArrayList<>();
-        List<String> allTxKeys = new ArrayList<>(mapOfTxToAllInputs.keySet());
-
-        for (String key : allTxKeys) {
-            allTransactions.add(new Transaction(key, mapOfTxToAllInputs.get(key).size()));
+    public List<Transaction> getLargestAncestors(Map<String, List<String>> inputMap, int count) {
+        List<Transaction> transactions = new ArrayList<>();
+        for (String key : inputMap.keySet()) {
+            transactions.add(new Transaction(key, inputMap.get(key).size()));
         }
-
-        allTransactions.sort((first, second) -> Integer.compare(second.getNoOfChildren(), first.getNoOfChildren()));
-
-        return allTransactions.subList(0, count);
+        transactions.sort((first, second) -> Integer.compare(second.getNoOfChildren(), first.getNoOfChildren()));
+        return transactions.subList(0, count);
     }
 
     public Map<String, List<String>> mapToTransactionInput(List<Root> transactions) {

@@ -25,15 +25,10 @@ public class AncestryCalculator {
                 transactionsMap.computeIfAbsent(transaction.txid, k -> new ArrayList<>()).add(transaction.vin.get(j).txid);
             }
         }
-        return transactionsMap;
-    }
-
-    public Map<String, List<String>> findAllAncestors(Map<String, List<String>> map) {
         Map<String, List<String>> resultMap = new HashMap<>();
-        List<String> transactions = new ArrayList<>(map.keySet());
-        for (String transaction : transactions) {
+        for (String transaction : transactionsMap.keySet()) {
             if (!resultMap.containsKey(transaction)) {
-                resultMap.put(transaction, dfs(transaction, map, new ArrayList<>()));
+                resultMap.put(transaction, dfs(transaction, transactionsMap, new ArrayList<>()));
             }
         }
         return resultMap;

@@ -38,8 +38,7 @@ public class TransactionController {
         } catch (Exception e) {
             throw new Error("Error calling API's" + e);
         }
-        Map<String, List<String>> inputMap = ancestryCalculator.mapToTransactionInput(transactions);
-        Map<String, List<String>> ancestorsMap = ancestryCalculator.findAllAncestors(inputMap);
+        Map<String, List<String>> ancestorsMap = ancestryCalculator.mapToTransactionInput(transactions);
         List<Transaction> res = ancestryCalculator.getLargestAncestors(ancestorsMap, 10);
         res.forEach(System.out::println);
         return ResponseEntity.ok(res);

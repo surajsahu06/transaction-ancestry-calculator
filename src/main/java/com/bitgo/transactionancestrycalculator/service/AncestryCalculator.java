@@ -28,23 +28,22 @@ public class AncestryCalculator {
         Map<String, List<String>> resultMap = new HashMap<>();
         for (String transaction : transactionsMap.keySet()) {
             if (!resultMap.containsKey(transaction)) {
-                resultMap.put(transaction, dfs(transaction, transactionsMap, new ArrayList<>()));
+                List<String> tx = new ArrayList<>();
+                dfs(transaction, transactionsMap, tx);
+                resultMap.put(transaction, tx);
             }
         }
         return resultMap;
     }
 
-    public List<String> dfs(String transaction, Map<String, List<String>> input, List<String> res) {
+    public void dfs(String transaction, Map<String, List<String>> input, List<String> res) {
         List<String> children = input.get(transaction);
-        if (children == null) {
-            return res;
-        }
+        if(children == null) return;
         for (String child : children) {
             if (!res.contains(child)) {
                 res.add(child);
                 dfs(child, input, res);
             }
         }
-        return res;
     }
 }

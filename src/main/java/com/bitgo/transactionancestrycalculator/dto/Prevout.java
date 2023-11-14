@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Vout {
+public class Prevout {
     public String scriptpubkey;
     public String scriptpubkey_asm;
     public String scriptpubkey_type;

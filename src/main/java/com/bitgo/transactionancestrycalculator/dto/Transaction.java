@@ -3,27 +3,13 @@ package com.bitgo.transactionancestrycalculator.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.List;
-
-@Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@ToString
 public class Transaction {
-
-    String txid;
-
-    int version;
-
-    int locktime;
-
-    List<Vin> vin;
-
-    List<Vout> vout;
-
-    long size;
-
-    long weight;
-
-    long fee;
+    private String key;
+    private int noOfChildren;
 }

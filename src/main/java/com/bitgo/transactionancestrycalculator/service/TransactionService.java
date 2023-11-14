@@ -1,23 +1,19 @@
 package com.bitgo.transactionancestrycalculator.service;
 
-import com.bitgo.transactionancestrycalculator.dto.Transaction;
+import com.bitgo.transactionancestrycalculator.dto.Root;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TransactionService {
 
     String blockHeightUrl = "https://blockstream.info/api/block-height/";
 
-    String transactionDetailsUrl = "https://blockstream.info/api/block/%s/txs/%s";
+    String transactionDetailsUrl = "https://blockstream.info/api/block/%s/txs/";
 
     @Autowired
     ObjectMapper objectMapper;
@@ -30,25 +26,30 @@ public class TransactionService {
         this.restTemplate = restTemplate;
     }
 
-    public String fetchHash(int block) {
+    public String getBlock(int blockNumber) throws Exception {
         try {
-            ResponseEntity<String> response = restTemplate.getForEntity(blockHeightUrl + "/" + block, String.class);
-            return response.getBody();
-        } catch (Exception e) {
-            System.err.println("error calling  block-height api");
+            String res = restTemplate.getForObject(blockHeightUrl + "/" + blockNumber, String.class);
+            return res;
+        } catch (Exception error) {
+            throw new Exception("Error calling block-height api");
         }
-        return Strings.EMPTY;
     }
 
-    public List<Transaction> fetchTransactionDetails(String transaction, String page) {
-        String url = String.format(transactionDetailsUrl, transaction, page);
-        try {
-            ResponseEntity<ArrayList> response = restTemplate.getForEntity(url, ArrayList.class);
-            return response.getBody();
-        } catch (Exception e) {
-            System.err.println("error calling tx api");
+    public List<Root> getAllTransactions(String hash) throws Exception {
+        String url = String.format(transactionDetailsUrl, hash);
+        int index = 0;
+        List<Root> list = new ArrayList<>();
+        while (true) {
+            try {
+                String res = restTemplate.getForObject(url + "/" + index, String.class);
+                Root[] roots = objectMapper.readValue(res, Root[].class);
+                list.addAll(Arrays.asList(roots));
+                index = index + 25;
+            } catch (Exception error) {
+                break;
+            }
         }
-        return new ArrayList<>();
+        return list;
     }
-
 }
+

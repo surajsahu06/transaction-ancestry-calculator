@@ -8,12 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Status {
-
-    boolean confirmed;
-
-    long block_height;
-
-    String block_hash;
-
-    long block_time;
+    public boolean confirmed;
+    public int block_height;
+    public String block_hash;
+    public int block_time;
 }

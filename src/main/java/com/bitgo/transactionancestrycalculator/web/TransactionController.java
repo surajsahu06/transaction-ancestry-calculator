@@ -32,12 +32,12 @@ public class TransactionController {
         try {
             blockHash = transactionService.getBlock(680000);
             transactions = transactionService.getAllTransactions(blockHash);
-        } catch (Exception error) {
-            throw new Error("Fatal error when trying API calls: " + error);
+        } catch (Exception e) {
+            throw new Error("Error calling API's" + e);
         }
         Map<String, List<String>> inputMap = ancestryCalculator.mapToTransactionInput(transactions);
-        Map<String, List<String>> txAncestries = ancestryCalculator.findAllAncestors(inputMap);
-        List<Transaction> largest = ancestryCalculator.getLargestAncestors(txAncestries, 10);
-        System.out.println(largest);
+        Map<String, List<String>> ancestorsMap = ancestryCalculator.findAllAncestors(inputMap);
+        List<Transaction> res = ancestryCalculator.getLargestAncestors(ancestorsMap, 10);
+        res.forEach(System.out::println);
     }
 }

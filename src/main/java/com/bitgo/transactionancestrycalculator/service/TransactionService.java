@@ -28,8 +28,7 @@ public class TransactionService {
 
     public String getBlock(int blockNumber) throws Exception {
         try {
-            String res = restTemplate.getForObject(blockHeightUrl + "/" + blockNumber, String.class);
-            return res;
+            return restTemplate.getForObject(blockHeightUrl + "/" + blockNumber, String.class);
         } catch (Exception error) {
             throw new Exception("Error calling block-height api");
         }

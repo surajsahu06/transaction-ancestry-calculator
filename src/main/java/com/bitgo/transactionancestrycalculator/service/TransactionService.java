@@ -45,7 +45,8 @@ public class TransactionService {
                 Root[] roots = objectMapper.readValue(res, Root[].class);
                 list.addAll(Arrays.asList(roots));
                 index = index + 25;
-            } catch (Exception error) {
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
                 break;
             }
         }
